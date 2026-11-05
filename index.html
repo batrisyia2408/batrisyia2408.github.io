@@ -254,4 +254,96 @@ main {
     background: #38bdf8;
     color: #0f172a;
     transform: translateX(4px);
-    box-shadow:
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 32px 20px;
+    color: #64748b;
+    font-size: 13px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: #070a12;
+}
+
+/* RESPONSIVE DESIGN */
+@media(max-width: 640px) {
+    header {
+        padding: 70px 20px 90px;
+    }
+
+    .menu-container {
+        grid-template-columns: 1fr;
+    }
+
+    .btn {
+        padding: 22px 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-content">
+        <div class="label">✨ Learning Portal</div>
+        <h1>Batrisyia's Projects</h1>
+        <p>Explore my collection of interactive web applications and showcases.</p>
+    </div>
+</header>
+
+<main>
+    <div class="section-header">
+        <div class="section-title">Select a Project</div>
+        <div class="section-desc">Click on any card below to view the project details.</div>
+    </div>
+
+    <div class="menu-container">
+
+        <a href="lat1/index.html" class="btn">
+            <div class="number">01</div>
+            <div class="info">
+                <h3>Project 1</h3>
+                <p>Discover Penang</p>
+            </div>
+            <div class="arrow">→</div>
+        </a>
+
+        <a href="lat2/index.html" class="btn">
+            <div class="number">02</div>
+            <div class="info">
+                <h3>Project 2</h3>
+                <p>Malaysia's Population</p>
+            </div>
+            <div class="arrow">→</div>
+        </a>
+
+        <a href="lat3/index.html" class="btn">
+            <div class="number">03</div>
+            <div class="info">
+                <h3>Project 3</h3>
+                <p>Livin' with Batrisyia</p>
+            </div>
+            <div class="arrow">→</div>
+        </a>
+
+        <a href="lat4/index.html" class="btn">
+            <div class="number">04</div>
+            <div class="info">
+                <h3>Project 4</h3>
+                <p>My Portfolio</p>
+            </div>
+            <div class="arrow">→</div>
+        </a>
+
+    </div>
+</main>
+
+<footer>
+    Learning Portal &copy; 2026 | All Rights Reserved
+</footer>
+
+</body>
+</html>
