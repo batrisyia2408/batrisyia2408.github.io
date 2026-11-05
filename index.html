@@ -5,22 +5,178 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>My First Website</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:#20234a;background:linear-gradient(135deg,#eaf2ff,#f4eaff,#fff0f7);min-height:100vh}
-header{text-align:center;padding:70px 20px 35px}
-.tag{display:inline-block;padding:8px 14px;border-radius:99px;background:#ffffffaa;color:#6554c0;font-size:13px;font-weight:700;letter-spacing:.08em}
-h1{font-size:clamp(32px,6vw,58px);margin:18px 0 10px;letter-spacing:-.04em}
-header p{color:#626783;font-size:17px;margin:0}
-main{max-width:1000px;margin:0 auto;padding:20px 24px 75px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
-.card{background:#ffffffc9;border:1px solid #ffffff;border-radius:24px;padding:28px;box-shadow:0 15px 40px #5c56a014;transition:transform .2s,box-shadow .2s}
-.card:hover{transform:translateY(-6px);box-shadow:0 22px 45px #5c56a025}
-.number{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:#e8e5ff;color:#6554c0;font-weight:800}
-h2{margin:22px 0 8px;font-size:23px}
-.card p{color:#73758e;line-height:1.6;min-height:50px}
-a{display:inline-block;margin-top:12px;text-decoration:none;background:#6658d8;color:white;padding:12px 18px;border-radius:12px;font-weight:700}
-a:hover{background:#5142c4}
-footer{text-align:center;color:#8586a0;padding:0 20px 30px;font-size:13px}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #183153;
+  background: linear-gradient(135deg, #f0f7ff, #e4efff, #f8fbff);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 80px 20px 45px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 9px 18px;
+  border-radius: 99px;
+  background: #dcecff;
+  color: #1765ad;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+h1 {
+  font-size: clamp(32px, 6vw, 60px);
+  margin: 20px 0 12px;
+  letter-spacing: -.04em;
+  color: #123b68;
+}
+
+header p {
+  color: #647b98;
+  font-size: 17px;
+}
+
+/* Main content */
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 25px 24px 90px;
+}
+
+/* Cards */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.card {
+  background: rgba(255,255,255,.85);
+  border: 1px solid #dceaff;
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 12px 35px rgba(30,90,160,.08);
+  transition: all .35s ease;
+  backdrop-filter: blur(10px);
+}
+
+.card:hover {
+  transform: translateY(-9px);
+  box-shadow: 0 22px 45px rgba(30,90,160,.16);
+  border-color: #a9d1ff;
+}
+
+/* Number icon */
+.number {
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #d9ebff, #b8d8ff);
+  color: #155ca8;
+  font-weight: 800;
+  box-shadow: 0 5px 15px #8bbcff30;
+}
+
+h2 {
+  margin: 22px 0 10px;
+  font-size: 23px;
+  color: #214d7b;
+}
+
+.card p {
+  color: #71839b;
+  line-height: 1.7;
+  min-height: 50px;
+}
+
+/* Buttons */
+a {
+  display: inline-block;
+  margin-top: 15px;
+  text-decoration: none;
+  background: linear-gradient(135deg, #2878cf, #1559a8);
+  color: white;
+  padding: 13px 21px;
+  border-radius: 13px;
+  font-weight: 700;
+  box-shadow: 0 7px 18px #1764b52b;
+  transition: all .3s ease;
+}
+
+a:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, #398ce5, #1d68bd);
+  box-shadow: 0 12px 25px #1764b540;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  color: #8295ad;
+  padding: 0 20px 35px;
+  font-size: 13px;
+}
+
+/* Floating blue bubbles */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  animation: float 8s ease-in-out infinite;
+}
+
+body::before {
+  width: 240px;
+  height: 240px;
+  top: 100px;
+  left: -100px;
+  background: rgba(70,150,240,.10);
+}
+
+body::after {
+  width: 320px;
+  height: 320px;
+  bottom: 50px;
+  right: -130px;
+  background: rgba(100,180,255,.12);
+  animation-delay: -4s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-25px);
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  header {
+    padding-top: 55px;
+  }
+
+  .card {
+    padding: 25px;
+  }
+}
 </style>
 </head>
 <body>
