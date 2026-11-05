@@ -1,57 +1,217 @@
+
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu Latihan Web</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            text-align: center;
-            padding: 50px 20px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu Utama Latihan</title>
 
-        h1 {
-            color: #333;
-            margin-bottom: 30px;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        .menu-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            max-width: 400px;
-            margin: 0 auto;
-        }
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f4f7fb;
+    color: #1e293b;
+    min-height: 100vh;
+}
 
-        .btn {
-            display: block;
-            padding: 15px 20px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 8px;
-            transition: background 0.2s ease;
-        }
+/* HEADER */
+header {
+    background: linear-gradient(135deg, #102a56, #1d4e89);
+    color: white;
+    padding: 65px 20px 75px;
+    text-align: center;
+}
 
-        .btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
+header .label {
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: #b9d7ff;
+    margin-bottom: 18px;
+}
+
+header h1 {
+    font-size: clamp(30px, 5vw, 45px);
+    margin: 0;
+    font-weight: 700;
+}
+
+header p {
+    color: #d5e5f8;
+    margin-top: 15px;
+    font-size: 15px;
+}
+
+/* CONTENT */
+main {
+    max-width: 950px;
+    margin: -35px auto 0;
+    padding: 0 25px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 650;
+    margin-bottom: 8px;
+}
+
+.section-desc {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+/* CARDS */
+.menu-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 25px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    text-decoration: none;
+    color: #1e293b;
+    transition: 0.25s ease;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+}
+
+.btn:hover {
+    transform: translateY(-4px);
+    border-color: #93c5fd;
+    box-shadow: 0 12px 25px rgba(30, 64, 175, 0.09);
+}
+
+.number {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #edf4ff;
+    color: #2563eb;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.info {
+    flex: 1;
+}
+
+.info h3 {
+    margin: 0 0 7px;
+    font-size: 17px;
+}
+
+.info p {
+    margin: 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
+.arrow {
+    font-size: 20px;
+    color: #94a3b8;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 50px 20px 25px;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+@media(max-width:600px) {
+    header {
+        padding: 50px 20px 65px;
+    }
+
+    .menu-container {
+        grid-template-columns: 1fr;
+    }
+
+    .btn {
+        padding: 20px;
+    }
+}
+</style>
 </head>
+
 <body>
 
+<header>
+    <div class="label">LEARNING PORTAL</div>
     <h1>Menu Utama Latihan</h1>
+    <p>Platform pembelajaran dan latihan interaktif</p>
+</header>
+
+<main>
+    <div class="section-title">Senarai Latihan</div>
+    <div class="section-desc">
+        Pilih modul latihan untuk memulakan aktiviti pembelajaran.
+    </div>
 
     <div class="menu-container">
-        <a href="lat1/index.html" class="btn">Latihan 1</a>
-        <a href="lat2/index.html" class="btn">Latihan 2</a>
-        <a href="lat3/index.html" class="btn">Latihan 3</a>
-        <a href="lat4/index.html" class="btn">Latihan 4</a>
+
+        <a href="lat1/index.html" class="btn">
+            <div class="number">01</div>
+            <div class="info">
+                <h3>Latihan 1</h3>
+                <p>Modul pembelajaran pertama</p>
+            </div>
+            <div class="arrow">›</div>
+        </a>
+
+        <a href="lat2/index.html" class="btn">
+            <div class="number">02</div>
+            <div class="info">
+                <h3>Latihan 2</h3>
+                <p>Modul pembelajaran kedua</p>
+            </div>
+            <div class="arrow">›</div>
+        </a>
+
+        <a href="lat3/index.html" class="btn">
+            <div class="number">03</div>
+            <div class="info">
+                <h3>Latihan 3</h3>
+                <p>Modul pembelajaran ketiga</p>
+            </div>
+            <div class="arrow">›</div>
+        </a>
+
+        <a href="lat4/index.html" class="btn">
+            <div class="number">04</div>
+            <div class="info">
+                <h3>Latihan 4</h3>
+                <p>Modul pembelajaran keempat</p>
+            </div>
+            <div class="arrow">›</div>
+        </a>
+
     </div>
+</main>
+
+<footer>
+    Learning Portal &copy; 2026 | All Rights Reserved
+</footer>
+
+</body>
+</html>
+
 
 </body>
 </html>
