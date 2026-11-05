@@ -1,1 +1,0 @@
-# batrisyia2408.github.io
