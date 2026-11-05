@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ms" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jom Ke Penang | Tempat Pelancongan Menarik di Pulau Pinang</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .hero-gradient {
+            background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&q=80&w=1920');
+            background-size: cover;
+            background-position: center;
+        }
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col antialiased">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 glass-nav border-b border-slate-800 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/30">
+                        <i class="fa-solid fa-umbrella-beach text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl font-bold bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-400 bg-clip-text text-transparent">Jom Penang!</span>
+                        <span class="block text-[10px] tracking-widest text-slate-400 uppercase font-semibold">Panduan Pelancongan</span>
+                    </div>
+                </a>
+
+                <!-- Quick Stats Badge -->
+                <div class="hidden md:flex items-center gap-6 text-sm text-slate-300">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-location-dot text-cyan-400"></i> Pulau Pinang, Malaysia</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-[#ffd700] text-amber-400"></i> UNESCO World Heritage</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative hero-gradient py-24 md:py-32 flex items-center justify-center text-center px-4">
+        <div class="max-w-4xl mx-auto">
+            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 mb-6">
+                <i class="fa-solid fa-compass animate-spin text-[10px]" style="animation-duration: 10s;"></i> Destinasi Percutian Popular 2026
+            </span>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
+                Terokai Keindahan & Warisan <br class="hidden sm:inline">
+                <span class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Pulau Pinang</span>
+            </h1>
+            <p class="mt-6 text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+                Daripada keindahan Bukit Bendera, seni jalanan ikonik George Town hingga ke hidangan Nasi Kandar yang menyelerakan — semua dalam satu panduan lengkap!
+            </p>
+
+            <!-- Search Bar -->
+            <div class="mt-10 max-w-2xl mx-auto">
+                <div class="relative flex items-center">
+                    <i class="fa-solid fa-magnifying-glass absolute left-5 text-slate-400 text-lg"></i>
+                    <input type="text" id="searchInput" onkeyup="filterPlaces()" placeholder="Cari destinasi, lokasi atau tempat makan..." class="w-full pl-14 pr-12 py-4 rounded-2xl bg-slate-800/90 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 shadow-2xl transition">
+                    <button onclick="clearSearch()" id="clearBtn" class="hidden absolute right-4 text-slate-400 hover:text-white p-2">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <!-- Filter Tabs -->
+        <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10" id="filterTabs">
+            <button onclick="filterCategory('all')" class="tab-btn active px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 bg-cyan-500 text-white shadow-lg shadow-cyan-500/25">
+                <i class="fa-solid fa-grid-2 mr-2"></i> Semua (8)
+            </button>
+            <button onclick="filterCategory('sejarah')" class="tab-btn px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700">
+                <i class="fa-solid fa-landmark mr-2 text-amber-400"></i> Sejarah & Warisan
+            </button>
+            <button onclick="filterCategory('alam')" class="tab-btn px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700">
+                <i class="fa-solid fa-tree mr-2 text-emerald-400"></i> Alam Semulajadi
+            </button>
+            <button onclick="filterCategory('makanan')" class="tab-btn px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700">
+                <i class="fa-solid fa-utensils mr-2 text-rose-400"></i> Tempat Makan
+            </button>
+            <button onclick="filterCategory('moden')" class="tab-btn px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700">
+                <i class="fa-solid fa-ticket mr-2 text-purple-400"></i> Tarikan Moden / Keluarga
+            </button>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="placesGrid">
+            <!-- Cards generated dynamically via JavaScript -->
+        </div>
+
+        <!-- No Results State -->
+        <div id="noResults" class="hidden text-center py-16">
+            <div class="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center mx-auto text-slate-500 mb-4">
+                <i class="fa-solid fa-magnifying-glass text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white">Tiada lokasi dijumpai</h3>
+            <p class="text-slate-400 mt-2">Cuba guna kata kunci carian lain atau ubah kategori pilihan anda.</p>
+        </div>
+    </main>
+
+    <!-- Modal Detail Tempat -->
+    <div id="detailModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl transform transition-all">
+            <div class="relative h-64 sm:h-72">
+                <img id="modalImg" src="" alt="" class="w-full h-full object-cover">
+                <button onclick="closeModal()" class="absolute top-4 right-4 w-10 h-10 bg-slate-900/80 hover:bg-slate-900 text-white rounded-full flex items-center justify-center transition border border-slate-700">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div class="absolute bottom-4 left-4">
+                    <span id="modalBadge" class="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-lg bg-cyan-500 text-white shadow-md"></span>
+                </div>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h2 id="modalTitle" class="text-2xl font-bold text-white"></h2>
+                        <p id="modalLocation" class="text-slate-400 text-sm mt-1 flex items-center gap-1.5">
+                            <i class="fa-solid fa-location-dot text-cyan-400"></i> <span></span>
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-1 bg-amber-400/10 border border-amber-400/30 px-3 py-1.5 rounded-xl text-amber-400 text-sm font-semibold">
+                        <i class="fa-solid fa-star"></i> <span id="modalRating"></span>
+                    </div>
+                </div>
+
+                <p id="modalDesc" class="mt-4 text-slate-300 leading-relaxed text-sm sm:text-base"></p>
+
+                <div class="mt-6 pt-6 border-t border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-slate-800/50 p-3.5 rounded-2xl border border-slate-800">
+                        <span class="text-xs text-slate-400 block font-medium">Waktu Operasi</span>
+                        <span id="modalHours" class="text-sm font-semibold text-white mt-1 block"></span>
+                    </div>
+                    <div class="bg-slate-800/50 p-3.5 rounded-2xl border border-slate-800">
+                        <span class="text-xs text-slate-400 block font-medium">Harga Tiket / Anggaran</span>
+                        <span id="modalPrice" class="text-sm font-semibold text-cyan-400 mt-1 block"></span>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <button onclick="closeModal()" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm transition">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-10 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-slate-400 text-sm">
+                &copy; 2026 Batrisyia Umairah binti Mohd Said. Dihasilkan untuk Panduan Pelancongan Pulau Pinang.
+            </p>
+            <p class="text-xs text-slate-600 mt-2">
+                Disimpan dan Dihoskan di GitHub Pages
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Data & Logic -->
+    <script>
+        // Senarai data tempat pelancongan
+        const places = [
+            {
+                id: 'bukit-bendera',
+                name: 'Bukit Bendera (Penang Hill)',
+                category: 'alam',
+                categoryLabel: 'Alam Semulajadi',
+                categoryColor: 'bg-emerald-500',
+                rating: '4.7',
+                location: 'Air Itam, Pulau Pinang',
+                image: 'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&q=80&w=800',
+                shortDesc: 'Puncak tertinggi di Penang dengan pemandangan panorama George Town dan laluan funikular bersejarah.',
+                longDesc: 'Bukit Bendera menawarkan udara segar dan pemandangan menakjubkan seluruh pulau. Nikmati perjalanan menaiki keretapi funikular yang ikonik dan terokai Habitat Penang Hill untuk pengalaman berjalan di atas kanopi hutan hujan tropika.',
+                hours: '6:30 AM - 11:00 PM (Harian)',
+                price: 'RM12 - RM30 (Pemegang MyKad)'
+            },
+            {
+                id: 'street-art',
+                name: 'Street Art George Town',
+                category: 'sejarah',
+                categoryLabel: 'Sejarah & Warisan',
+                categoryColor: 'bg-amber-500',
+                rating: '4.8',
+                location: 'Lebuh Armenian, George Town',
+                image: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&q=80&w=800',
+                shortDesc: 'Lukisan mural dinding dan arca besi yang menjadi ikon visual warisan dunia UNESCO.',
+                longDesc: 'Terokai lorong-lorong warisan George Town untuk bergambar dengan mural-mural terkenal seperti "Kids on Bicycle" karya Ernest Zacharevic. Setiap lukisan menceritakan sejarah dan kehidupan seharian warga tempatan.',
+                hours: '24 Jam (Terbuka)',
+                price: 'Percuma'
+            },
+            {
+                id: 'nasi-kandar',
+                name: 'Nasi Kandar Line Clear',
+                category: 'makanan',
+                categoryLabel: 'Tempat Makan',
+                categoryColor: 'bg-rose-500',
+                rating: '4.6',
+                location: 'Penang Road, George Town',
+                image: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&q=80&w=800',
+                shortDesc: 'Hidangan ikonik Nasi Kandar berlaukkan ayam goreng berempah, kuah campur banjir, dan telur asin.',
+                longDesc: 'Restoran Nasi Kandar legenda yang dibuka sejak puluhan tahun lalu di dalam lorong khas. Terkenal dengan gabungan kuah kari pelbagai aroma ("kuah campur") dan ayam goreng panas yang sungguh menyelerakan.',
+                hours: '24 Jam (Harian)',
+                price: 'RM10 - RM25 (Bergantung lauk)'
+            },
+            {
+                id: 'escape',
+                name: 'ESCAPE Theme Park',
+                category: 'moden',
+                categoryLabel: 'Tarikan Moden',
+                categoryColor: 'bg-purple-500',
+                rating: '4.9',
+                location: 'Teluk Bahang, Pulau Pinang',
+                image: 'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&q=80&w=800',
+                shortDesc: 'Taman tema lasak luar bangunan dengan gelongsor air terpanjang di dunia diiktiraf Guinness World Records.',
+                longDesc: 'Destinasi seronok untuk seisi keluarga dan peminat aktiviti lasak. Menawarkan zipline, aktiviti memanjat pokok, gelongsor tiup, dan pelbagai aktiviti air di tengah-tengah alam semulajadi.',
+                hours: '10:00 AM - 6:00 PM (Selasa - Ahad)',
+                price: 'RM110 - RM160 (Tempah awal murah)'
+            },
+            {
+                id: 'bm-park',
+                name: 'Taman Rekreasi Bukit Mertajam',
+                category: 'alam',
+                categoryLabel: 'Alam Semulajadi',
+                categoryColor: 'bg-emerald-500',
+                rating: '4.5',
+                location: 'Cherok Tokun, Bukit Mertajam',
+                image: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=80&w=800',
+                shortDesc: 'Hutan lipur dan trek jungle trekking popular dengan Pokok Seraya Besar yang ikonik di Seberang Perai.',
+                longDesc: 'Terkenal juga sebagai Cherok Tokun, taman rekreasi ini sesuai untuk aktiviti riadah, mendaki gunung, dan menikmati air terjun semula jadi. Destinasi pilihan utama warga tempatan di tanah besar Pulau Pinang.',
+                hours: '6:00 AM - 7:00 PM (Harian)',
+                price: 'Percuma'
+            },
+            {
+                id: 'entopia',
+                name: 'Entopia by Penang Butterfly Farm',
+                category: 'moden',
+                categoryLabel: 'Tarikan Moden',
+                categoryColor: 'bg-purple-500',
+                rating: '4.7',
+                location: 'Teluk Bahang, Pulau Pinang',
+                image: 'https://images.unsplash.com/photo-1555465910-31f7f20a184d?auto=format&fit=crop&q=80&w=800',
+                shortDesc: 'Taman rama-rama & serangga tempatan dengan persekitaran sanctuary terbuka yang memukau.',
+                longDesc: 'Entopia terbahagi kepada dua bahagian utama: Natureland (taman kubah vivarium hidup yang mempunyai lebih 15,000 rama-rama terbang bebas) dan Cocoon (pusat penemuan interaktif bertema sains).',
+                hours: '9:00 AM - 6:00 PM (Khamis - Selasa)',
+                price: 'RM49 - RM69'
+            },
+            {
+                id: 'clan-jetties',
+                name: 'Jeti Suku Kaum (Clan Jetties)',
+                category: 'sejarah',
+                categoryLabel: 'Sejarah & Warisan',
+                categoryColor: 'bg-amber-500',
+                rating: '4.5',
+                location: 'Pengkalan Weld, George Town',
+                image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=800',
+                shortDesc: 'Perkampungan atas air tradisional kaum Cina yang dibina sejak abad ke-19 di sepanjang pantai.',
+                longDesc: 'Terdiri daripada pelbagai jeti mengikut nama suku (paling terkenal Jeti Chew / Chew Jetty). Pengunjung dapat merasai pengalaman berjalan di atas laluan papan sambil melihat kehidupan komuniti nelayan tempatan.',
+                hours: '9:00 AM - 9:00 PM (Harian)',
+                price: 'Percuma'
+            },
+            {
+                id: 'batu-ferringhi',
+                name: 'Pantai Batu Ferringhi',
+                category: 'alam',
+                categoryLabel: 'Alam Semulajadi',
+                categoryColor: 'bg-emerald-500',
+                rating: '4.6',
+                location: 'Batu Ferringhi, Pulau Pinang',
+                image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=800',
+                shortDesc: 'Pusat peranginan pantai pasir putih yang terkenal dengan sukan air dan pasar malam tepi pantai.',
+                longDesc: 'Destinasi riadah dan santai petang popular. Di sini pengunjung boleh menikmati aktiviti sukan air seperti parasailing dan jet ski, serta membeli-belah cenderamata di Night Market sepanjang jalan pantai.',
+                hours: '24 Jam (Pasar Malam dari 7:00 PM)',
+                price: 'Percuma'
+            }
+        ];
+
+        let currentCategory = 'all';
+
+        // Render Kad
+        function renderPlaces(data) {
+            const grid = document.getElementById('placesGrid');
+            const noResults = document.getElementById('noResults');
+            grid.innerHTML = '';
+
+            if (data.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            data.forEach(place => {
+                const card = `
+                    <div class="bg-slate-800/80 border border-slate-700/60 rounded-3xl overflow-hidden hover:border-cyan-500/50 hover:shadow-xl hover:shadow-cyan-500/10 transition-all duration-300 flex flex-col group">
+                        <div class="relative h-52 overflow-hidden">
+                            <img src="${place.image}" alt="${place.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-4 left-4 ${place.categoryColor} text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-md">
+                                ${place.categoryLabel}
+                            </span>
+                            <div class="absolute bottom-3 right-3 bg-slate-900/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-amber-400 text-xs font-semibold flex items-center gap-1 border border-slate-700">
+                                <i class="fa-solid fa-star"></i> ${place.rating}
+                            </div>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">${place.name}</h3>
+                                <p class="text-xs text-slate-400 mt-1 flex items-center gap-1">
+                                    <i class="fa-solid fa-location-dot text-cyan-400"></i> ${place.location}
+                                </p>
+                                <p class="text-slate-300 text-sm mt-3 line-clamp-2 leading-relaxed">
+                                    ${place.shortDesc}
+                                </p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-slate-700/50 flex items-center justify-between">
+                                <span class="text-xs font-semibold text-cyan-400">${place.price}</span>
+                                <button onclick="openModal('${place.id}')" class="px-4 py-2 rounded-xl bg-slate-700 hover:bg-cyan-500 hover:text-white text-slate-200 text-xs font-semibold transition">
+                                    Maklumat Lanjut <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        // Tapisan Kategori
+        function filterCategory(cat) {
+            currentCategory = cat;
+            
+            // Kemaskini Gaya Butang Tab
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-cyan-500', 'text-white', 'shadow-lg', 'shadow-cyan-500/25');
+                btn.classList.add('bg-slate-800', 'text-slate-300', 'hover:bg-slate-700');
+            });
+            event.currentTarget.classList.remove('bg-slate-800', 'text-slate-300', 'hover:bg-slate-700');
+            event.currentTarget.classList.add('bg-cyan-500', 'text-white', 'shadow-lg', 'shadow-cyan-500/25');
+
+            filterPlaces();
+        }
+
+        // Tapisan Carian
+        function filterPlaces() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const clearBtn = document.getElementById('clearBtn');
+            
+            if (query.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+
+            const filtered = places.filter(place => {
+                const matchesCat = (currentCategory === 'all') || (place.category === currentCategory);
+                const matchesQuery = place.name.toLowerCase().includes(query) || 
+                                     place.location.toLowerCase().includes(query) || 
+                                     place.shortDesc.toLowerCase().includes(query);
+                return matchesCat && matchesQuery;
+            });
+
+            renderPlaces(filtered);
+        }
+
+        // Bersihkan Carian
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('clearBtn').classList.add('hidden');
+            filterPlaces();
+        }
+
+        // Fungsi Modal
+        function openModal(id) {
+            const place = places.find(p => p.id === id);
+            if (!place) return;
+
+            document.getElementById('modalImg').src = place.image;
+            document.getElementById('modalTitle').textContent = place.name;
+            document.getElementById('modalLocation').querySelector('span').textContent = place.location;
+            document.getElementById('modalRating').textContent = place.rating;
+            document.getElementById('modalDesc').textContent = place.longDesc;
+            document.getElementById('modalBadge').textContent = place.categoryLabel;
+            document.getElementById('modalHours').textContent = place.hours;
+            document.getElementById('modalPrice').textContent = place.price;
+
+            document.getElementById('detailModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Modal close upon backdrop click
+        document.getElementById('detailModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Initial Render
+        renderPlaces(places);
+    </script>
+</body>
+</html>
