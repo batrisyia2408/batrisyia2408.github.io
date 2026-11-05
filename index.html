@@ -1,25 +1,41 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Portfolio LAT 1, LAT 2 & LAT 3</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Laboratory Website</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#f4f7fb;color:#172033}
-header{padding:46px 20px;text-align:center;background:linear-gradient(135deg,#0f172a,#14532d);color:white}
-header h1{font-size:clamp(28px,5vw,48px);margin:0 0 12px}header p{margin:0;color:#dbeafe}
-main{max-width:1400px;margin:auto;padding:24px 14px}
-.project{margin:28px 0 42px;background:white;border-radius:18px;overflow:hidden;box-shadow:0 8px 30px #0f172a12}
-.project-title{padding:20px 24px;background:#fff;border-bottom:1px solid #e5e7eb}
-.project-title h2{margin:0 0 6px;font-size:23px}.project-title p{margin:0;color:#64748b}
-iframe{width:100%;border:0;display:block;background:white}
-footer{text-align:center;padding:25px;color:#64748b}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:#20234a;background:linear-gradient(135deg,#eaf2ff,#f4eaff,#fff0f7);min-height:100vh}
+header{text-align:center;padding:70px 20px 35px}
+.tag{display:inline-block;padding:8px 14px;border-radius:99px;background:#ffffffaa;color:#6554c0;font-size:13px;font-weight:700;letter-spacing:.08em}
+h1{font-size:clamp(32px,6vw,58px);margin:18px 0 10px;letter-spacing:-.04em}
+header p{color:#626783;font-size:17px;margin:0}
+main{max-width:1000px;margin:0 auto;padding:20px 24px 75px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.card{background:#ffffffc9;border:1px solid #ffffff;border-radius:24px;padding:28px;box-shadow:0 15px 40px #5c56a014;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-6px);box-shadow:0 22px 45px #5c56a025}
+.number{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:#e8e5ff;color:#6554c0;font-weight:800}
+h2{margin:22px 0 8px;font-size:23px}
+.card p{color:#73758e;line-height:1.6;min-height:50px}
+a{display:inline-block;margin-top:12px;text-decoration:none;background:#6658d8;color:white;padding:12px 18px;border-radius:12px;font-weight:700}
+a:hover{background:#5142c4}
+footer{text-align:center;color:#8586a0;padding:0 20px 30px;font-size:13px}
 </style>
 </head>
 <body>
-<header><h1>Portfolio Projek LAT</h1><p>LAT 1 • LAT 2 • LAT 3 — Semua projek dalam satu laman</p></header>
+<header>
+<span class="tag">MY PROJECT PORTFOLIO</span>
+<h1>My Laboratory Website</h1>
+<p>Explore my laboratory activities and projects.</p>
+</header>
 <main>
-<section class="project"><div class="project-title"><h2>LAT 1 — Jom Ke Penang</h2><p>Tempat pelancongan menarik di Pulau Pinang</p></div><iframe src="lat1/index.html" title="LAT 1" style="height:2600px"></iframe></section>
-<section class="project"><div class="project-title"><h2>LAT 2 — Dashboard Demografi Malaysia</h2><p>Dashboard populasi Malaysia</p></div><iframe src="lat2/index.html" title="LAT 2" style="height:2600px"></iframe></section>
-<section class="project"><div class="project-title"><h2>LAT 3 — Livin's with Batrisyia</h2><p>Resort premium Langkawi</p></div><iframe src="lat3/index.html" title="LAT 3" style="height:2600px"></iframe></section>
-</main><footer>© Portfolio LAT — Semua projek dipaparkan dalam satu halaman.</footer>
-</body></html>
+<div class="cards">
+<section class="card"><div class="number">01</div><h2>Laboratory 1</h2><p>View the activities and work for Lab 1.</p><a href="./lat1/">Open Lab 1 ↗</a></section>
+<section class="card"><div class="number">02</div><h2>Laboratory 2</h2><p>View the activities and work for Lab 2.</p><a href="./lat2/">Open Lab 2 ↗</a></section>
+<section class="card"><div class="number">03</div><h2>Laboratory 3</h2><p>Explore the resort website project for Lab 3.</p><a href="./lat3/">Open Lab 3 ↗</a></section>
+</div>
+</main>
+<footer>Made with care · Laboratory Projects</footer>
+</body>
+</html>
