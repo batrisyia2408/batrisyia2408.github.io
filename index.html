@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Batrisyia's Projects</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 * {
@@ -14,33 +14,49 @@
 body {
     margin: 0;
     font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
-    background: #0f172a;
+    background: #090d16;
     color: #f8fafc;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 /* HEADER & HERO SECTION */
 header {
     position: relative;
-    background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
-    padding: 80px 20px 100px;
+    background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 60%, #090d16 100%);
+    padding: 90px 20px 110px;
     text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     overflow: hidden;
 }
 
-/* Latar belakang kesan grid bercahaya */
+/* Kesan Bola Cahaya (Glow Orbs) di Background Header */
 header::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, rgba(168, 85, 247, 0.2) 50%, transparent 80%);
+    filter: blur(60px);
+    pointer-events: none;
+}
+
+/* Grid overlay */
+header::after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: radial-gradient(rgba(56, 189, 248, 0.12) 1px, transparent 1px);
-    background-size: 32px 32px;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+    background-size: 28px 28px;
+    opacity: 0.5;
     pointer-events: none;
 }
 
@@ -52,41 +68,46 @@ header::before {
 }
 
 header .label {
-    display: inline-block;
-    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: 2px;
     color: #38bdf8;
-    background: rgba(56, 189, 248, 0.1);
-    border: 1px solid rgba(56, 189, 248, 0.25);
-    padding: 6px 16px;
-    border-radius: 20px;
-    margin-bottom: 20px;
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    padding: 8px 20px;
+    border-radius: 30px;
+    margin-bottom: 24px;
     text-transform: uppercase;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
 }
 
 header h1 {
-    font-size: clamp(32px, 5vw, 48px);
+    font-size: clamp(36px, 6vw, 56px);
     margin: 0;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #ffffff 0%, #38bdf8 50%, #c084fc 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 header p {
-    color: #94a3b8;
-    margin-top: 14px;
-    font-size: 16px;
+    color: #cbd5e1;
+    margin-top: 16px;
+    font-size: 17px;
     line-height: 1.6;
+    font-weight: 500;
 }
 
 /* MAIN CONTENT CONTAINER */
 main {
-    max-width: 900px;
+    max-width: 950px;
     width: 100%;
-    margin: -40px auto 60px;
+    margin: -45px auto 80px;
     padding: 0 24px;
     position: relative;
     z-index: 2;
@@ -94,27 +115,28 @@ main {
 }
 
 .section-header {
-    margin-bottom: 24px;
+    margin-bottom: 28px;
+    text-align: center;
 }
 
 .section-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #f1f5f9;
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
     letter-spacing: -0.01em;
 }
 
 .section-desc {
     font-size: 14px;
-    color: #64748b;
-    margin-top: 4px;
+    color: #94a3b8;
+    margin-top: 6px;
 }
 
 /* GRID & CARDS */
 .menu-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 24px;
 }
 
 .btn {
@@ -122,44 +144,79 @@ main {
     display: flex;
     align-items: center;
     gap: 20px;
-    padding: 24px;
-    background: rgba(30, 41, 59, 0.7);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
+    padding: 28px 24px;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
     text-decoration: none;
     color: #f8fafc;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+}
+
+/* Glow bar di atas setiap kad bila hover */
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #38bdf8, #a855f7);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .btn:hover {
-    transform: translateY(-4px);
-    background: rgba(30, 41, 59, 0.95);
-    border-color: rgba(56, 189, 248, 0.4);
-    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5), 
-                0 0 20px rgba(56, 189, 248, 0.15);
+    transform: translateY(-6px);
+    background: rgba(30, 41, 59, 0.85);
+    border-color: rgba(168, 85, 247, 0.4);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 
+                0 0 30px rgba(168, 85, 247, 0.2);
+}
+
+.btn:hover::before {
+    opacity: 1;
 }
 
 .number {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
-    background: rgba(56, 189, 248, 0.1);
-    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 14px;
+    font-size: 18px;
+    font-weight: 800;
+    transition: all 0.3s ease;
+}
+
+/* Perbezaan Warna Setiap Projek supaya Variasi & Menarik */
+.btn:nth-child(1) .number {
+    background: rgba(56, 189, 248, 0.15);
     color: #38bdf8;
-    font-size: 16px;
-    font-weight: 700;
-    transition: 0.3s ease;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+}
+.btn:nth-child(2) .number {
+    background: rgba(168, 85, 247, 0.15);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+}
+.btn:nth-child(3) .number {
+    background: rgba(244, 63, 94, 0.15);
+    color: #fb7185;
+    border: 1px solid rgba(244, 63, 94, 0.3);
+}
+.btn:nth-child(4) .number {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.3);
 }
 
 .btn:hover .number {
-    background: #38bdf8;
-    color: #0f172a;
-    border-color: #38bdf8;
+    transform: scale(1.08) rotate(-3deg);
 }
 
 .info {
@@ -168,125 +225,33 @@ main {
 
 .info h3 {
     margin: 0 0 6px;
-    font-size: 17px;
-    font-weight: 600;
-    color: #f8fafc;
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
 }
 
 .info p {
     margin: 0;
-    font-size: 13px;
+    font-size: 14px;
     color: #94a3b8;
     line-height: 1.4;
 }
 
 .arrow {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.05);
-    color: #64748b;
-    font-size: 16px;
-    transition: 0.3s ease;
+    color: #94a3b8;
+    font-size: 18px;
+    transition: all 0.3s ease;
 }
 
 .btn:hover .arrow {
-    background: rgba(56, 189, 248, 0.2);
-    color: #38bdf8;
-    transform: translateX(3px);
-}
-
-/* FOOTER */
-footer {
-    text-align: center;
-    padding: 30px 20px;
-    color: #64748b;
-    font-size: 13px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* RESPONSIVE DESIGN */
-@media(max-width: 640px) {
-    header {
-        padding: 60px 20px 80px;
-    }
-
-    .menu-container {
-        grid-template-columns: 1fr;
-    }
-
-    .btn {
-        padding: 20px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<header>
-    <div class="header-content">
-        <div class="label">LEARNING PORTAL</div>
-        <h1>Batrisyia's Projects</h1>
-        <p>Various Type of Projects</p>
-    </div>
-</header>
-
-<main>
-    <div class="section-header">
-        <div class="section-title">Choose Your Projects</div>
-
-
-
-
-        
-    <div class="menu-container">
-
-        <a href="lat1/index.html" class="btn">
-            <div class="number">01</div>
-            <div class="info">
-                <h3>Project 1</h3>
-                <p>Discover Penang</p>
-            </div>
-            <div class="arrow">→</div>
-        </a>
-
-        <a href="lat2/index.html" class="btn">
-            <div class="number">02</div>
-            <div class="info">
-                <h3>Project 2</h3>
-                <p>Malaysia's Population</p>
-            </div>
-            <div class="arrow">→</div>
-        </a>
-
-        <a href="lat3/index.html" class="btn">
-            <div class="number">03</div>
-            <div class="info">
-                <h3>Project 3</h3>
-                <p>Livin's with Batrisyia</p>
-            </div>
-            <div class="arrow">→</div>
-        </a>
-
-        <a href="lat4/index.html" class="btn">
-            <div class="number">04</div>
-            <div class="info">
-                <h3>Project 4</h3>
-                <p>My Portfolio</p>
-            </div>
-            <div class="arrow">→</div>
-        </a>
-
-    </div>
-</main>
-
-<footer>
-    Learning Portal &copy; 2026 | All Rights Reserved
-</footer>
-
-</body>
-</html>
+    background: #38bdf8;
+    color: #0f172a;
+    transform: translateX(4px);
+    box-shadow:
