@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent Telegram Bot Builder & Simulator</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            900: '#070a12',
+                            800: '#0f172a',
+                            700: '#1e293b',
+                            600: '#334155'
+                        },
+                        brand: {
+                            cyan: '#38bdf8',
+                            purple: '#a855f7',
+                            emerald: '#34d399',
+                            pink: '#ec4899'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar for Telegram Chat & Panels */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(56, 189, 248, 0.25);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(56, 189, 248, 0.5);
+        }
+
+        /* Glassmorphism & Neon Glow Effects */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .neon-glow-cyan {
+            box-shadow: 0 0 25px -5px rgba(56, 189, 248, 0.3);
+        }
+
+        .neon-glow-purple {
+            box-shadow: 0 0 25px -5px rgba(168, 85, 247, 0.3);
+        }
+
+        /* Telegram Chat Background Pattern */
+        .telegram-bg {
+            background-color: #0d141e;
+            background-image: radial-gradient(rgba(56, 189, 248, 0.07) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* Animation for Chat Typing Indicator */
+        .typing-dot {
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-5px); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-dark-900 text-slate-100 font-sans min-h-screen flex flex-col overflow-x-hidden selection:bg-brand-cyan selection:text-dark-900">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="border-b border-white/10 bg-dark-800/80 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-cyan to-brand-purple flex items-center justify-center text-dark-900 font-extrabold text-xl shadow-lg shadow-brand-cyan/20">
+                    <i class="fa-paper-plane text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight bg-gradient-to-r from-white via-slate-200 to-brand-cyan bg-clip-text text-transparent">
+                        AI Telegram Agent Studio
+                    </h1>
+                    <p class="text-xs text-slate-400 font-medium">Interactive Builder & Real-time Simulator</p>
+                </div>
+            </div>
+
+            <!-- Tab Buttons -->
+            <nav class="flex items-center gap-1 bg-dark-900/60 p-1 rounded-xl border border-white/5">
+                <button onclick="switchTab('simulator')" id="tab-btn-simulator" class="px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-all bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30">
+                    <i class="fa-solid fa-comments"></i> Live Simulator
+                </button>
+                <button onclick="switchTab('workflow')" id="tab-btn-workflow" class="px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-all text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-diagram-project"></i> Workflow Agent
+                </button>
+                <button onclick="switchTab('code')" id="tab-btn-code" class="px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-all text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-code"></i> Python & Deployment
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col gap-6">
+
+        <!-- SECTION 1: LIVE SIMULATOR & CONFIGURATION -->
+        <div id="tab-simulator" class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
+
+            <!-- LEFT PANEL: BOT CONFIGURATION & PERSONALITY -->
+            <div class="lg:col-span-5 flex flex-col gap-5">
+                <div class="glass-panel p-5 rounded-2xl border border-white/10 flex flex-col gap-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                        <h2 class="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-sliders text-brand-cyan"></i> Tetapan Ejen AI
+                        </h2>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            ● Status: Active
+                        </span>
+                    </div>
+
+                    <!-- Preset Selectors -->
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Pilih Templat Ejen (Preset):</label>
+                        <select id="preset-select" onchange="loadPreset()" class="w-full bg-dark-900 border border-white/10 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-brand-cyan transition-colors">
+                            <option value="customer_support">👨‍💼 Customer Support & Sales Agent</option>
+                            <option value="utm_tutor">🎓 Tutor Akademik UTM (Engineering Assistant)</option>
+                            <option value="fitness_coach">🏋️ Jurulatih Kesihatan & Nutrisi</option>
+                            <option value="custom">⚙️ Custom Identity</option>
+                        </select>
+                    </div>
+
+                    <!-- Bot Name Input -->
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Nama Bot Telegram:</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-2.5 text-slate-500 text-xs">@</span>
+                            <input type="text" id="bot-name" value="Batrisyia_AI_Bot" oninput="updateBotHeader()" class="w-full bg-dark-900 border border-white/10 rounded-xl py-2 pl-8 pr-3 text-xs text-slate-200 focus:outline-none focus:border-brand-cyan">
+                        </div>
+                    </div>
+
+                    <!-- System Prompt (Personality Instructions) -->
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-xs font-medium text-slate-400">System Prompt (Arahan Kelakuan AI):</label>
+                            <span class="text-[10px] text-brand-cyan cursor-pointer hover:underline" onclick="clearSystemPrompt()">Reset</span>
+                        </div>
+                        <textarea id="system-prompt" rows="5" class="w-full bg-dark-900 border border-white/10 rounded-xl p-3 text-xs text-slate-300 focus:outline-none focus:border-brand-cyan leading-relaxed resize-none" placeholder="Masukkan peranan dan arahan untuk ejen..."></textarea>
+                    </div>
+
+                    <!-- AI Parameters -->
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <div>
+                            <label class="block text-[11px] font-medium text-slate-400 mb-1">Temperature (Kreativiti):</label>
+                            <div class="flex items-center gap-2">
+                                <input type="range" id="temp-range" min="0" max="1" step="0.1" value="0.7" oninput="document.getElementById('temp-val').innerText = this.value" class="w-full accent-brand-cyan">
+                                <span id="temp-val" class="text-xs font-bold text-brand-cyan">0.7</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-medium text-slate-400 mb-1">Modul Respon:</label>
+                            <select id="response-speed" class="w-full bg-dark-900 border border-white/10 rounded-xl p-2 text-xs text-slate-300 focus:outline-none">
+                                <option value="stream">⚡ Streaming Live</option>
+                                <option value="instant">🚀 Respon Segera</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Fast Action Buttons -->
+                    <div class="flex gap-2 pt-2 border-t border-white/5">
+                        <button onclick="clearChat()" class="flex-1 py-2 px-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-trash-can"></i> Padam Sesi Chat
+                        </button>
+                    </div>
+                </div>
+
+                <!-- QUICK STATS CARD -->
+                <div class="glass-panel p-4 rounded-2xl border border-white/10 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-lg bg-brand-purple/10 border border-brand-purple/20 flex items-center justify-center text-brand-purple">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-200">Penggunaan API Simulasi</h4>
+                            <p class="text-[10px] text-slate-400"><span id="msg-count">0</span> Mesej Diproses Sesi Ini</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-mono px-2.5 py-1 bg-dark-900 rounded-lg text-brand-cyan border border-brand-cyan/20">Latency: ~240ms</span>
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL: TELEGRAM PHONE SIMULATOR -->
+            <div class="lg:col-span-7 flex flex-col">
+                <div class="glass-panel rounded-3xl border border-white/10 flex flex-col h-[640px] shadow-2xl overflow-hidden neon-glow-cyan">
+                    
+                    <!-- Telegram Header Bar -->
+                    <div class="bg-dark-800 border-b border-white/10 p-3.5 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="relative">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-cyan to-blue-600 flex items-center justify-center font-bold text-dark-900 text-sm shadow-md">
+                                    <i class="fa-solid fa-robot text-white"></i>
+                                </div>
+                                <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-dark-800 rounded-full"></span>
+                            </div>
+                            <div>
+                                <h3 id="chat-header-name" class="font-bold text-sm text-slate-100 flex items-center gap-1.5">
+                                    Batrisyia AI Bot <i class="fa-solid fa-circle-check text-brand-cyan text-xs"></i>
+                                </h3>
+                                <p id="chat-header-status" class="text-[11px] text-slate-400">bot • menyokong respons automatik</p>
+                            </div>
+                        </div>
+
+                        <!-- Header Controls -->
+                        <div class="flex items-center gap-2 text-slate-400 text-sm">
+                            <button title="Carian" class="p-2 hover:text-white transition-colors"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            <button title="Info Bot" class="p-2 hover:text-white transition-colors"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Telegram Chat Messages Body -->
+                    <div id="chat-container" class="flex-1 telegram-bg p-4 overflow-y-auto flex flex-col gap-3">
+                        
+                        <!-- Date Badge -->
+                        <div class="self-center my-1 bg-dark-800/80 backdrop-blur border border-white/5 px-3 py-1 rounded-full text-[10px] text-slate-400 font-medium">
+                            Hari Ini
+                        </div>
+
+                        <!-- Bot Welcome Message -->
+                        <div class="flex items-start gap-2 max-w-[85%] self-start">
+                            <div class="w-7 h-7 rounded-full bg-brand-cyan/20 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan text-xs flex-shrink-0 mt-1">
+                                <i class="fa-solid fa-robot"></i>
+                            </div>
+                            <div class="bg-dark-800 border border-white/10 rounded-2xl rounded-tl-xs p-3 text-xs text-slate-200 shadow-md">
+                                <p class="leading-relaxed">Salam! 👋 Saya adalah **AI Agent Telegram Bot** anda. Sila taip mesej di bawah untuk menguji respon saya berdasarkan *System Prompt* yang telah anda tetapkan!</p>
+                                <span class="text-[9px] text-slate-500 float-right mt-1">10:00 AM</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Typing Indicator Container (Hidden by Default) -->
+                    <div id="typing-indicator" class="hidden px-4 py-2 text-[11px] text-brand-cyan bg-dark-900/40 flex items-center gap-2 border-t border-white/5">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> <span id="bot-name-typing">Bot</span> sedang menaip
+                        <span class="inline-flex items-center gap-0.5 ml-1">
+                            <span class="w-1 h-1 bg-brand-cyan rounded-full typing-dot"></span>
+                            <span class="w-1 h-1 bg-brand-cyan rounded-full typing-dot"></span>
+                            <span class="w-1 h-1 bg-brand-cyan rounded-full typing-dot"></span>
+                        </span>
+                    </div>
+
+                    <!-- Chat Input Controls -->
+                    <div class="bg-dark-800 border-t border-white/10 p-3 flex items-center gap-2">
+                        <button class="text-slate-400 hover:text-brand-cyan p-2 text-base transition-colors" title="Tambah Lampiran">
+                            <i class="fa-solid fa-paperclip"></i>
+                        </button>
+                        <input type="text" id="user-input" onkeypress="handleKeyPress(event)" placeholder="Tulis mesej kepada AI Agent..." class="flex-1 bg-dark-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-brand-cyan transition-colors">
+                        <button onclick="sendMessage()" class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-cyan to-blue-600 hover:opacity-90 flex items-center justify-center text-white text-sm shadow-md transition-all active:scale-95">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: WORKFLOW AGENT BUILDER (VISUAL FLOW) -->
+        <div id="tab-workflow" class="hidden flex-1 flex-col gap-6">
+            <div class="glass-panel p-6 rounded-3xl border border-white/10 flex flex-col gap-6">
+                <div>
+                    <h2 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                        <i class="fa-solid fa-diagram-project text-brand-purple"></i> Visual Automasi AI Agent (Workflow Architecture)
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Gambaran alur kerja bagaimana mesej pengguna diproses dari Telegram ke AI Agent dan disimpan ke pangkalan data.</p>
+                </div>
+
+                <!-- Visual Nodes Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+
+                    <!-- Node 1: Telegram Trigger -->
+                    <div class="bg-dark-900/90 border border-brand-cyan/40 p-4 rounded-2xl flex flex-col gap-3 relative shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20">STEP 1: TRIGGER</span>
+                            <i class="fa-brands fa-telegram text-brand-cyan text-xl"></i>
+                        </div>
+                        <h3 class="text-xs font-bold text-white">Telegram Webhook</h3>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Menerima mesej yang dihantar oleh pengguna dari aplikasi Telegram melalui API BotFather.</p>
+                        <div class="text-[10px] font-mono text-slate-500 bg-dark-800 p-2 rounded-lg border border-white/5">
+                            POST /telegram/webhook
+                        </div>
+                    </div>
+
+                    <!-- Node 2: AI Processing Agent -->
+                    <div class="bg-dark-900/90 border border-brand-purple/40 p-4 rounded-2xl flex flex-col gap-3 relative shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-brand-purple/10 text-brand-purple border border-brand-purple/20">STEP 2: AI AGENT</span>
+                            <i class="fa-solid fa-brain text-brand-purple text-xl"></i>
+                        </div>
+                        <h3 class="text-xs font-bold text-white">Gemini / OpenAI Engine</h3>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Menganalisis teks, merujuk System Prompt & konteks, lalu menjana jawapan pintar automatik.</p>
+                        <div class="text-[10px] font-mono text-slate-500 bg-dark-800 p-2 rounded-lg border border-white/5">
+                            model: gemini-2.5-flash
+                        </div>
+                    </div>
+
+                    <!-- Node 3: Database & Log -->
+                    <div class="bg-dark-900/90 border border-emerald-500/40 p-4 rounded-2xl flex flex-col gap-3 relative shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">STEP 3: LOG & STORAGE</span>
+                            <i class="fa-solid fa-file-csv text-emerald-400 text-xl"></i>
+                        </div>
+                        <h3 class="text-xs font-bold text-white">Google Sheets / Database</h3>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Menyimpan log perbualan, maklumat pelanggan, dan analisa sentimen secara automasi.</p>
+                        <div class="text-[10px] font-mono text-slate-500 bg-dark-800 p-2 rounded-lg border border-white/5">
+                            Append Row (Date, User, Msg)
+                        </div>
+                    </div>
+
+                    <!-- Node 4: Send Telegram Reply -->
+                    <div class="bg-dark-900/90 border border-brand-pink/40 p-4 rounded-2xl flex flex-col gap-3 relative shadow-lg">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-brand-pink/10 text-brand-pink border border-brand-pink/20">STEP 4: RESPONSE</span>
+                            <i class="fa-solid fa-paper-plane text-brand-pink text-xl"></i>
+                        </div>
+                        <h3 class="text-xs font-bold text-white">Hantar Respon Telegram</h3>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Menghantar jawapan yang terhasil terus ke skrin ruang sembang pengguna Telegram.</p>
+                        <div class="text-[10px] font-mono text-slate-500 bg-dark-800 p-2 rounded-lg border border-white/5">
+                            sendMessage(chat_id, text)
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Interactive Test Simulator inside Workflow -->
+                <div class="bg-dark-900/60 border border-white/10 rounded-2xl p-4 flex flex-col gap-3">
+                    <h4 class="text-xs font-bold text-slate-200">Panduan Ringkas Penyediaan Make.com (No-Code):</h4>
+                    <ol class="list-decimal list-inside text-xs text-slate-400 space-y-1.5 leading-relaxed">
+                        <li>Buka akaun di <a href="https://www.make.com" target="_blank" class="text-brand-cyan hover:underline">Make.com</a> dan cipta Scenario baharu.</li>
+                        <li>Tambah modul <strong>Telegram Bot -> Watch Updates</strong> dan masukkan API Token daripada <strong>@BotFather</strong>.</li>
+                        <li>Sambungkan ke modul <strong>OpenAI / Google Gemini</strong> dan masukkan prompt Sistem anda.</li>
+                        <li>Tambah modul <strong>Telegram Bot -> Send a Message</strong> untuk membalas mesej semula ke Telegram.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: PYTHON CODE GENERATOR -->
+        <div id="tab-code" class="hidden flex-1 flex-col gap-6">
+            <div class="glass-panel p-6 rounded-3xl border border-white/10 flex flex-col gap-5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                            <i class="fa-brands fa-python text-brand-cyan"></i> Skrip Python Lengkap (Ready-to-Deploy)
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-0.5">Kod ini dihasilkan secara automatik mengikut tetapan nama bot dan System Prompt anda!</p>
+                    </div>
+                    <button onclick="copyCode()" class="px-4 py-2 bg-brand-cyan text-dark-900 font-bold rounded-xl text-xs flex items-center gap-2 hover:bg-opacity-90 transition-all shadow-md">
+                        <i class="fa-solid fa-copy"></i> Salin Kod Python
+                    </button>
+                </div>
+
+                <!-- Code Editor Display -->
+                <div class="relative">
+                    <pre class="bg-dark-900 border border-white/10 rounded-2xl p-4 text-xs font-mono text-emerald-400 overflow-x-auto leading-relaxed max-h-[480px]" id="python-code-display">
+# Skrip Python sedang dijana...
+                    </pre>
+                </div>
+
+                <!-- Step-by-Step Deployment Instructions -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div class="bg-dark-900/80 border border-white/5 p-4 rounded-xl">
+                        <h4 class="font-bold text-brand-cyan mb-1">1. Pasang Library Required</h4>
+                        <p class="text-slate-400 leading-relaxed">Jalankan perintah ini di Command Prompt / Terminal anda:</p>
+                        <code class="block mt-2 p-2 bg-dark-800 text-slate-300 rounded font-mono text-[11px]">pip install pyTelegramBotAPI google-generativeai</code>
+                    </div>
+                    <div class="bg-dark-900/80 border border-white/5 p-4 rounded-xl">
+                        <h4 class="font-bold text-brand-purple mb-1">2. Dapatkan API Key</h4>
+                        <p class="text-slate-400 leading-relaxed">Dapatkan Telegram Token daripada Telegram <strong>@BotFather</strong> dan API Key percuma daripada Google AI Studio.</p>
+                    </div>
+                    <div class="bg-dark-900/80 border border-white/5 p-4 rounded-xl">
+                        <h4 class="font-bold text-emerald-400 mb-1">3. Jalankan Skrip</h4>
+                        <p class="text-slate-400 leading-relaxed">Simpan kod di atas sebagai <code class="text-white">bot.py</code> dan jalankan menerusi perintah <code class="text-white">python bot.py</code>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-white/10 bg-dark-900/80 py-4 text-center text-xs text-slate-500">
+        <p>AI Agent Telegram Bot Studio &copy; 2026 • Recreated & Enhanced with Passion for Engineering Students</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Preset Definitions
+        const presets = {
+            customer_support: {
+                name: "Support_Assist_Bot",
+                prompt: "Anda adalah Ejen Khidmat Pelanggan mesra dan profesional. Tugas anda adalah membantu pelanggan menjawab soalan berkaitan produk, waktu operasi, dan penyelesaian masalah teknikal dengan sopan dan pantas."
+            },
+            utm_tutor: {
+                name: "UTM_Engineering_Tutor",
+                prompt: "Anda adalah Tutor Akademik Kejuruteraan UTM. Tugas anda adalah membantu pelajar memahami konsep Kejuruteraan Proses Kimia, Matematik Kejuruteraan, serta sintaksis kod HTML/CSS/Python secara berstruktur dan jelas."
+            },
+            fitness_coach: {
+                name: "Health_Coach_Bot",
+                prompt: "Anda adalah Jurulatih Kecergasan & Nutrisi AI. Tugas anda adalah memberikan cadangan senaman bulanan, cadangan kalori harian, serta motivasi kecergasan secara bersemangat."
+            },
+            custom: {
+                name: "Custom_AI_Bot",
+                prompt: "Anda adalah Ejen AI serba boleh. Jawab semua soalan pengguna dengan jelas dan berkesan."
+            }
+        };
+
+        let messageCount = 0;
+
+        // Initialize Preset on Load
+        window.onload = function() {
+            loadPreset();
+            generatePythonCode();
+        };
+
+        // Switch Active Tab
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.getElementById('tab-simulator').classList.add('hidden');
+            document.getElementById('tab-workflow').classList.add('hidden');
+            document.getElementById('tab-code').classList.add('hidden');
+
+            // Reset tab button styles
+            ['simulator', 'workflow', 'code'].forEach(t => {
+                const btn = document.getElementById(`tab-btn-${t}`);
+                btn.className = "px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-all text-slate-400 hover:text-white";
+            });
+
+            // Show selected tab & highlight button
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabName}`).classList.add('flex');
+            
+            const activeBtn = document.getElementById(`tab-btn-${tabName}`);
+            activeBtn.className = "px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-all bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30";
+
+            if (tabName === 'code') {
+                generatePythonCode();
+            }
+        }
+
+        // Load Preset Values
+        function loadPreset() {
+            const selected = document.getElementById('preset-select').value;
+            const presetData = presets[selected];
+            if (presetData) {
+                document.getElementById('bot-name').value = presetData.name;
+                document.getElementById('system-prompt').value = presetData.prompt;
+                updateBotHeader();
+            }
+        }
+
+        // Update Bot Header Text
+        function updateBotHeader() {
+            const botName = document.getElementById('bot-name').value || "Batrisyia_AI_Bot";
+            document.getElementById('chat-header-name').innerHTML = `${botName} <i class="fa-solid fa-circle-check text-brand-cyan text-xs"></i>`;
+            document.getElementById('bot-name-typing').innerText = botName;
+            generatePythonCode();
+        }
+
+        // Clear System Prompt
+        function clearSystemPrompt() {
+            document.getElementById('system-prompt').value = "";
+        }
+
+        // Handle Enter Key Press in Chat Input
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Send User Message & Simulate AI Response
+        function sendMessage() {
+            const inputField = document.getElementById('user-input');
+            const userText = inputField.value.trim();
+            if (!userText) return;
+
+            const chatContainer = document.getElementById('chat-container');
+
+            // Get Current Time
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            // Render User Bubble
+            const userBubbleHTML = `
+                <div class="flex items-start gap-2 max-w-[85%] self-end flex-row-reverse">
+                    <div class="w-7 h-7 rounded-full bg-brand-purple/20 border border-brand-purple/30 flex items-center justify-center text-brand-purple text-xs flex-shrink-0 mt-1">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="bg-gradient-to-r from-brand-cyan/20 to-blue-600/20 border border-brand-cyan/30 rounded-2xl rounded-tr-xs p-3 text-xs text-slate-100 shadow-md">
+                        <p class="leading-relaxed">${escapeHtml(userText)}</p>
+                        <span class="text-[9px] text-slate-400 float-right mt-1">${timeStr} ✓✓</span>
+                    </div>
+                </div>
+            `;
+            chatContainer.insertAdjacentHTML('beforeend', userBubbleHTML);
+            inputField.value = '';
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // Increment Stats
+            messageCount++;
+            document.getElementById('msg-count').innerText = messageCount;
+
+            // Show Typing Indicator
+            const typingIndicator = document.getElementById('typing-indicator');
+            typingIndicator.classList.remove('hidden');
+
+            // Generate Simulated AI Answer based on System Prompt & Input
+            setTimeout(() => {
+                typingIndicator.classList.add('hidden');
+
+                const systemPrompt = document.getElementById('system-prompt').value;
+                const aiResponse = generateSimulatedAIResponse(userText, systemPrompt);
+
+                const botBubbleHTML = `
+                    <div class="flex items-start gap-2 max-w-[85%] self-start">
+                        <div class="w-7 h-7 rounded-full bg-brand-cyan/20 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan text-xs flex-shrink-0 mt-1">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div class="bg-dark-800 border border-white/10 rounded-2xl rounded-tl-xs p-3 text-xs text-slate-200 shadow-md">
+                            <p class="leading-relaxed">${aiResponse}</p>
+                            <span class="text-[9px] text-slate-500 float-right mt-1">${timeStr}</span>
+                        </div>
+                    </div>
+                `;
+                chatContainer.insertAdjacentHTML('beforeend', botBubbleHTML);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 1200);
+        }
+
+        // Logic to simulate context-aware AI Agent Response
+        function generateSimulatedAIResponse(userQuery, prompt) {
+            const queryLower = userQuery.toLowerCase();
+            
+            if (queryLower.includes('hai') || queryLower.includes('hello') || queryLower.includes('salam')) {
+                return `Salam! Saya di sini untuk membantu anda. Berdasarkan tetapan saya (*System Prompt*), apa yang boleh saya selesaikan untuk anda hari ini?`;
+            } else if (queryLower.includes('siapa kamu') || queryLower.includes('nama')) {
+                const botName = document.getElementById('bot-name').value;
+                return `Saya ialah **${botName}**, AI Agent automatik yang disambungkan menerusi Telegram API!`;
+            } else if (queryLower.includes('projek') || queryLower.includes('code') || queryLower.includes('html')) {
+                return `Untuk pembangunan web dan skrip, saya boleh membantu menyemak ralat kod HTML, CSS, mahupun Python anda serta mengintegrasikan API secara automatik! 🚀`;
+            } else {
+                return `Terima kasih atas mesej anda: "*${escapeHtml(userQuery)}*". \n\nSebagai **AI Agent Telegram**, saya telah memproses soalan ini mengikut arahan prompt: \n\n*"${escapeHtml(prompt.substring(0, 90))}..."* \n\nMesej ini sedia untuk disambung terus ke pelayan Python anda!`;
+            }
+        }
+
+        // Clear Chat Container
+        function clearChat() {
+            const chatContainer = document.getElementById('chat-container');
+            chatContainer.innerHTML = `
+                <div class="self-center my-1 bg-dark-800/80 backdrop-blur border border-white/5 px-3 py-1 rounded-full text-[10px] text-slate-400 font-medium">
+                    Sesi Dibersihkan
+                </div>
+            `;
+            messageCount = 0;
+            document.getElementById('msg-count').innerText = 0;
+        }
+
+        // Generate Dynamic Python Code for Deployment
+        function generatePythonCode() {
+            const botName = document.getElementById('bot-name').value || "My_AI_Bot";
+            const systemPrompt = document.getElementById('system-prompt').value.replace(/"/g, '\\"');
+
+            const codeStr = `import telebot
+import google.generativeai as genai
+
+# 1. TETAPAN TELEGRAM BOT & GEMINI API KEY
+TELEGRAM_BOT_TOKEN = "MASUKKAN_TOKEN_BOTFATHER_DI_SINI"
+GEMINI_API_KEY = "MASUKKAN_GEMINI_API_KEY_DI_SINI"
+
+# Inisialisasi Bot & AI Engine
+bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
+genai.configure(api_key=GEMINI_API_KEY)
+
+# Arahan Personaliti (System Prompt) untuk Bot: @${botName}
+SYSTEM_PROMPT = """${systemPrompt}"""
+
+model = genai.GenerativeModel(
+    model_name="gemini-2.5-flash",
+    system_instruction=SYSTEM_PROMPT
+)
+
+# 2. HANDLE COMMAND /start & /help
+@bot.message_handler(commands=['start', 'help'])
+def send_welcome(message):
+    welcome_text = "Salam! 👋 Saya adalah AI Agent Telegram Bot anda. Sila hantar sebarang soalan!"
+    bot.reply_to(message, welcome_text)
+
+# 3. HANDLE MESEJ PENGGUNA & JANA JAWAPAN AI
+@bot.message_handler(func=lambda message: True)
+def handle_ai_response(message):
+    try:
+        # Hantar mesej 'typing' ke Telegram semasa AI memproses
+        bot.send_chat_action(message.chat.id, 'typing')
+        
+        user_text = message.text
+        
+        # Jana Jawapan Menggunakan Gemini AI
+        response = model.generate_content(user_text)
+        bot_reply = response.text
+        
+        # Balas Mesej Pengguna
+        bot.reply_to(message, bot_reply)
+        
+    except Exception as e:
+        bot.reply_to(message, f"Maaf, berlaku ralat sambungan AI: {str(e)}")
+
+# 4. JALANKAN BOT
+if __name__ == "__main__":
+    print("🤖 Bot Telegram @${botName} sedang beroperasi...")
+    bot.infinity_polling()
+`;
+            document.getElementById('python-code-display').innerText = codeStr;
+        }
+
+        // Copy Python Code to Clipboard
+        function copyCode() {
+            const codeText = document.getElementById('python-code-display').innerText;
+            const dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = codeText;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+
+            alert("✅ Kod Python berjaya disalin ke papan klip (Clipboard)!");
+        }
+
+        // Utility: Escape HTML
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
